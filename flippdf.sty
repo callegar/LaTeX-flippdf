@@ -1,0 +1,20 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{flippdf}[2006/06/30 R1.0]
+\RequirePackage{everypage}
+
+\newif\if@sc@flippdf
+
+\newcommand\FlipPDF{\@sc@flippdftrue}
+\newcommand\UnFlipPDF{\@sc@flippdffalse}
+\FlipPDF
+
+\DeclareOption{off}{\UnFlipPDF}
+\ProcessOptions
+
+\AtBeginDocument{%
+  \AddEverypageHook{%
+    \if@sc@flippdf
+    \pdfliteral direct {-1 0 0 1 \strip@pt\paperwidth\space 0 cm}
+    \fi}}
+
+\endinput
