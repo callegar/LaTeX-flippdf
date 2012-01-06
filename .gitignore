@@ -1,0 +1,12 @@
+*~
+auto/
+buildpkg/
+flippdf.aux
+flippdf.dvi
+flippdf.glo
+flippdf.idx
+flippdf.ilg
+flippdf.ind
+flippdf.log
+flippdf.pdf
+flippdf.sty
