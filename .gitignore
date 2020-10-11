@@ -4,9 +4,13 @@ buildpkg/
 flippdf.aux
 flippdf.dvi
 flippdf.glo
+flippdf.gls
+flippdf.hd
+flippdf.out
 flippdf.idx
 flippdf.ilg
 flippdf.ind
 flippdf.log
 flippdf.pdf
 flippdf.sty
+test-flippdf*
