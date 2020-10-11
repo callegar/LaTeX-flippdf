@@ -117,7 +117,8 @@
 % \section{Examples}
 % \subsection{Plain case}
 % In this example, every page of the document is flipped, relying on the
-% automatic operation mode of the package.  \iffalse
+% automatic operation mode of the package.
+% \iffalse
 %<*test-1>
 % \fi
 %    \begin{macrocode}
@@ -134,6 +135,46 @@
 %    \end{macrocode}
 % \iffalse
 %</test-1>
+% \fi
+%
+% \subsection{Case with activation and deactivation}
+% In this example, the page flipping is manually activated and deactivated.
+% \iffalse
+%<*test-2>
+% \fi
+%    \begin{macrocode}
+\documentclass[a4paper]{article}
+\usepackage[off]{flippdf}
+\usepackage{lipsum}
+
+\title{Test document for the flippdf package}
+
+\begin{document}
+
+\thispagestyle{empty}
+{\Large Some non-mirrored initial info}
+
+\bigskip
+
+\lipsum[1]
+
+\maketitle
+\setcounter{page}{1}
+\FlipPDF
+\lipsum[2-6]
+
+\clearpage
+\UnFlipPDF
+\thispagestyle{empty}
+{\Large Some non-mirrored final info}
+
+\bigskip
+
+\lipsum[7]
+\end{document}
+%    \end{macrocode}
+% \iffalse
+%</test-2>
 % \fi
 %
 % \StopEventually {}
