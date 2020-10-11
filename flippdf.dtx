@@ -145,10 +145,13 @@
 % \fi
 % Announce the name and version of the package, that requires
 % \hologo{LaTeX2e} (actually \hologo{pdfLaTeX}).
+% \changes{R1.0b}{2020/10/11}{%
+%  Require \Lpack{everypage} package to be at least at its 2007/06/20 (R1.1)
+%  release.}
 %    \begin{macrocode}
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{flippdf}%
-  [2006/06/30 1.0 Horizontal flipping of pages with pdfLaTeX]
+  [2020/10/11 1.0b Horizontal flipping of pages with pdfLaTeX]
 %    \end{macrocode}
 %
 % Assure that the dependence on \Lpack{everypage} is satisfied.
@@ -197,6 +200,7 @@
 % \fi
 %
 % \Finale
+% \PrintChanges
 % \PrintIndex
 %
 % \CharacterTable
