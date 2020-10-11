@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %
-% Copyright 2006
+% Copyright 2006, 2020
 % Sergio Callegari <sergio.callegari@gmail.com>
 %
 % ---------------------------------------------
@@ -9,9 +9,8 @@
 % ---------------------------------------------
 %
 % It may be distributed and/or modified under the conditions of the
-% LaTeX Project Public License, either version 1.3 of this licence, or
-% any later version. The latest version of this license is at
-% http://www.latex-project.org/lppl.txt and version 1.3 is part
+% LaTeX Project Public License, version 1.3c of this licence.
+% This license is at http://www.latex-project.org/lppl.txt and is part
 % of all distributions of LaTeX version 2003/06/01 or later.
 %
 % This work has the LPPL maintenance status "author-maintained".
@@ -21,12 +20,12 @@
 %
 %<*driver>
 \documentclass{ltxdoc}
-\usepackage{mathptmx, helvet, courier}
+\usepackage{mathptmx}
+\usepackage{helvet}
+\usepackage{hologo}
+\usepackage[T1]{fontenc}
+\usepackage{hypdoc}
 \EnableCrossrefs
-\DoNotIndex{\NeedsTeXFormat,\ProcessOptions}
-\DoNotIndex{\def,\gdef,\let,\newcommand}
-\DoNotIndex{\ProvidesPackage,\RequirePackage,\DeclareOption,\endinput}
-\DoNotIndex{\ifx,\fi,\paperwidth,\space,\strip@pt,\newif}
 \CodelineIndex
 \RecordChanges
 \begin{document}
@@ -36,12 +35,17 @@
 %
 % \fi
 %
-% \CheckSum{23}
+% \DoNotIndex{\NeedsTeXFormat,\ProcessOptions}
+% \DoNotIndex{\def,\gdef,\let,\newcommand}
+% \DoNotIndex{\ProvidesPackage,\RequirePackage,\DeclareOption,\endinput}
+% \DoNotIndex{\ifx,\fi,\paperwidth,\space,\strip@pt,\newif}
+%
+% \CheckSum{22}
 %
 % \def\filename{flippdf.dtx}
-% \def\fileversion{1.0}
-% \def\filedate{2006/06/30}
-% \def\docdate{2006/06/30}
+% \def\fileversion{1.0b}
+% \def\filedate{2020/10/11}
+% \def\docdate{2020/10/11}
 %
 % \newcommand*{\Lpack}[1]{\textsf {#1}}           ^^A typeset a package
 % \newcommand*{\Lopt}[1]{\textsf {#1}}            ^^A typeset an option
@@ -63,30 +67,30 @@
 % \maketitle
 %
 % \begin{abstract}
-%   The \Lpack{pdfflip} package extends pdf\LaTeX\ making it possible
-%   to typeset a ``mirrored'' version of the document. This is
-%   sometimes required by publishers who want ``camera-ready''
-%   documents to be printable on transparent films, so that one reads
-%   the pages correctly by looking \emph{through} the film (i.e., with
-%   the \emph{unprinted} side of the film towards his eyes. This
-%   package requires \Lpack{everypage} by the same author and works
-%   with pdf\LaTeX\ only.
+%   The \Lpack{pdfflip} package extends \hologo{pdfLaTeX} making it
+%   possible to typeset a ``mirrored'' version of the document. This is
+%   sometimes required by publishers who use photographic printing
+%   processes that need ``camera-ready'' documents to be printable on
+%   transparent films, so that one reads the pages correctly by looking
+%   \emph{through} the film with the \emph{unprinted} side of the film
+%   towards his eyes. This package requires \Lpack{everypage} by the same
+%   author and works with \hologo{pdfLaTeX} only.
 % \end{abstract}
 % 
 % \section{Introduction}
 % 
-% This \LaTeX\ package makes it possible to typeset a document
-% horizontally flipping its pages. This is sometimes required by
-% publishers who want ``camera-ready'' documents to be printable on
-% transparent films, so that one reads the pages correctly by looking
-% \emph{through} the film (i.e., with the \emph{unprinted} side of the
-% film towards his eyes.
+% This \LaTeX\ package makes it possible to typeset a document flipping
+% its pages horizontally. This is sometimes required by publishers who use
+% photographic printing process that need ``camera-ready'' documents to be
+% printable on transparent films, so that one reads the pages correctly by
+% looking \emph{through} the film (i.e., with the \emph{unprinted} side of
+% the film towards his eyes).
 %
 % It is also possible to activate the mirroring capability on a page
 % by page basis.
 %
 % This package requires \Lpack{everypage} by the same author and works
-% with pdf\LaTeX\ only.
+% with \hologo{pdfLaTeX} only.
 %
 % \section{User interface}
 % By default, once loaded as:
@@ -101,29 +105,55 @@
 % \end{quote}
 % The package is loaded but remains inactive.
 %
-% \DescribeMacro{\FlipPDF}\DescribeMacro{\UnFlipPDF}
-% The |\FlipPDF| command lets one switch on page flipping. Conversely,
-% |\UnFlipPDF| switches off page flipping.
-% 
+% \DescribeMacro{\FlipPDF} The |\FlipPDF| command lets one switch on page
+% flipping. Conversely, \DescribeMacro{\UnFlipPDF}|\UnFlipPDF| switches
+% off page flipping.
+%
+%
+% \section{Examples}
+% \subsection{Plain case}
+% In this example, every page of the document is flipped, relying on the
+% automatic operation mode of the package.  \iffalse
+%<*test-1>
+% \fi
+%    \begin{macrocode}
+\documentclass[a4paper]{article}
+\usepackage{flippdf}
+\usepackage{lipsum}
+
+\title{Test document for the flippdf package}
+
+\begin{document}
+\maketitle
+\lipsum[1-5]
+\end{document}
+%    \end{macrocode}
+% \iffalse
+%</test-1>
+% \fi
+%
 % \StopEventually {}
 % 
 % \section{Implementation}
 %
-% Announce the name and version of the package, which requires
-% \LaTeXe (actually pdfLaTeX).
+% \iffalse
+%<*flippdf>
+% \fi
+% Announce the name and version of the package, that requires
+% \hologo{LaTeX2e} (actually \hologo{pdfLaTeX}).
 %    \begin{macrocode}
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{flippdf}%
   [2006/06/30 1.0 Horizontal flipping of pages with pdfLaTeX]
 %    \end{macrocode}
 %
-% Reminds the dependence on \Lpack{everypage}.
+% Assure that the dependence on \Lpack{everypage} is satisfied.
 %    \begin{macrocode}
 \RequirePackage{everypage}
 %    \end{macrocode}
 % \begin{macro}{\if@sc@flippdf}
 %
-% Defines a boolean variable to remember if pages are to be flipped or
+% Define a boolean variable to remember if pages are to be flipped or
 % not.
 %    \begin{macrocode}
 \newif\if@sc@flippdf
@@ -157,30 +187,32 @@
   \if@sc@flippdf
   \pdfliteral direct {-1 0 0 1 \strip@pt\paperwidth\space 0 cm}
   \fi}
-\endinput
 %    \end{macrocode}
+% \iffalse
+%</flippdf>
+% \fi
 %
 % \Finale
 % \PrintIndex
 %
-%% \CharacterTable
-%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
-%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
-%%   Digits        \0\1\2\3\4\5\6\7\8\9
-%%   Exclamation   \!     Double quote  \"     Hash (number) \#
-%%   Dollar        \$     Percent       \%     Ampersand     \&
-%%   Acute accent  \'     Left paren    \(     Right paren   \)
-%%   Asterisk      \*     Plus          \+     Comma         \,
-%%   Minus         \-     Point         \.     Solidus       \/
-%%   Colon         \:     Semicolon     \;     Less than     \<
-%%   Equals        \=     Greater than  \>     Question mark \?
-%%   Commercial at \@     Left bracket  \[     Backslash     \\
-%%   Right bracket \]     Circumflex    \^     Underscore    \_
-%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
-%%   Right brace   \}     Tilde         \~}
+% \CharacterTable
+%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%   Digits        \0\1\2\3\4\5\6\7\8\9
+%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%   Dollar        \$     Percent       \%     Ampersand     \&
+%   Acute accent  \'     Left paren    \(     Right paren   \)
+%   Asterisk      \*     Plus          \+     Comma         \,
+%   Minus         \-     Point         \.     Solidus       \/
+%   Colon         \:     Semicolon     \;     Less than     \<
+%   Equals        \=     Greater than  \>     Question mark \?
+%   Commercial at \@     Left bracket  \[     Backslash     \\
+%   Right bracket \]     Circumflex    \^     Underscore    \_
+%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%   Right brace   \}     Tilde         \~}
 \endinput
 
-%%% Local Variables: 
-%%% mode: doctex
-%%% TeX-master: t
-%%% End: 
+% %% Local Variables: 
+% %% mode: doctex
+% %% TeX-master: t
+% %% End: 

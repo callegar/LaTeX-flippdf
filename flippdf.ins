@@ -1,5 +1,5 @@
 %% flippdf.ins
-%% Copyright 2006
+%% Copyright 2006, 2020
 %% Sergio Callegari <sergio.callegari@gmail.com>
 %%
 %% ---------------------------------------------
@@ -8,9 +8,8 @@
 %% ---------------------------------------------
 %%
 %% It may be distributed and/or modified under the conditions of the
-%% LaTeX Project Public License, either version 1.3 of this licence, or
-%% any later version. The latest version of this license is at
-%% http://www.latex-project.org/lppl.txt and version 1.3 is part
+%% LaTeX Project Public License, version 1.3c. This version of the
+%% license is at http://www.latex-project.org/lppl.txt and is part
 %% of all distributions of LaTeX version 2003/06/01 or later.
 %%
 %% This work has the LPPL maintenance status "author-maintained".
@@ -25,17 +24,14 @@
 %% --------------- start of docstrip commands ------------------
 %%
 \input docstrip.tex
+
+\usedir{tex/latex/flippdf}
+
 \preamble
-This is file `flippdf.sty',
-generated with the docstrip utility.
-
-The original source files were:
-
-flippdf.dtx
 
  IMPORTANT NOTICE:
 
-Copyright 2006
+Copyright 2006, 2020
 Sergio Callegari <sergio.callegari@gmail.com>
 
 ---------------------------------------------
@@ -47,21 +43,22 @@ This program consists of the files listed in the README file included
 in the package.
 
 Any modified versions of this file must be renamed with new filenames
-distinct from flippdf.sty.
+distinct from \outFileName.
 
-For distribution of the original source see the terms
-for copying and modification in the file flippdf.dtx.
+For distribution of the original source see the terms for copying and
+modification in the file \inFileName.
 
-This generated file may be distributed as long as the
-original source files, as listed above, are part of the
-same distribution. (The sources need not necessarily be
-in the same archive or directory.)
+This generated file may be distributed as long as the original source files, as
+listed above, are part of the same distribution. (The sources need not
+necessarily be in the same archive or directory.)
 
 \endpreamble
 
 \keepsilent
 \Msg{*** Generating the LaTeX2e package files ***}
-\generate{\file{flippdf.sty}{\from{flippdf.dtx}{}}}
+\generate{\file{flippdf.sty}{\from{flippdf.dtx}{flippdf}}}
+\generate{\file{test-flippdf-1}{\from{flippdf.dtx}{test-1}}}
+
 \ReportTotals
 
 \Msg{***********************************************************}
@@ -72,13 +69,13 @@ in the same archive or directory.)
 \Msg{* \space\space flippdf.sty}
 \Msg{*}
 \Msg{*}
-\Msg{* To produce the documentation run the files ending with}
-\Msg{* `.dtx' through LaTeX (or maybe pdfLaTeX).}
-\Msg{* Process any name.idx file by:}
-\Msg{* \space\space\space\space makeindex -s gind.ist name}
-\Msg{* Process any name.glo file by:}
-\Msg{* \space\space\space\space makeindex -s gglo.ist -o name.gls name.glo}
-\Msg{* Re run through LaTeX the .dtx files as necessary}
+\Msg{* To produce the documentation:}
+\Msg{*  - run flippdf.dtx through LaTeX}
+\Msg{*  - process flippdf.idx by:}
+\Msg{* \space\space\space\space makeindex -s gind.ist flippdf}
+\Msg{* Process flippdf.glo by:}
+\Msg{* \space\space\space\space makeindex -s gglo.ist -o flippdf.gls flippdf.glo}
+\Msg{* Re run through LaTeX the flippdf.dtx as necessary}
 \Msg{*}
 \Msg{***********************************************************}
 
