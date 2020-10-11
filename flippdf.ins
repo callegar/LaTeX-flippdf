@@ -25,8 +25,6 @@
 %%
 \input docstrip.tex
 
-\usedir{tex/latex/flippdf}
-
 \preamble
 
  IMPORTANT NOTICE:
@@ -56,7 +54,9 @@ necessarily be in the same archive or directory.)
 
 \keepsilent
 \Msg{*** Generating the LaTeX2e package files ***}
+\usedir{tex/latex/flippdf}
 \generate{\file{flippdf.sty}{\from{flippdf.dtx}{flippdf}}}
+\usedir{doc/latex/flippdf/examples}
 \generate{\file{test-flippdf-1}{\from{flippdf.dtx}{test-1}}}
 \generate{\file{test-flippdf-2}{\from{flippdf.dtx}{test-2}}}
 
