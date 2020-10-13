@@ -41,11 +41,13 @@ package()
     mkdir -p buildpkg/"$PKGNAME"_"$PKGVERS"
     cp "$PKGNAME".dtx "$PKGNAME".ins "${PKGCNT[@]}" \
        buildpkg/"$PKGNAME"_"$PKGVERS"/
-    cd buildpkg/workdir
-    zip -r -9 ../$PKGNAME.tds.zip tex doc
-    cd -
+    #cd buildpkg/workdir
+    #zip -r -9 ../$PKGNAME.tds.zip tex doc
+    #cd -
+    cp buildpkg/workdir/"$PKGNAME".pdf buildpkg/"$PKGNAME"_"$PKGVERS"/
     cd buildpkg
-    zip -r -9 "$PKGNAME"_"$PKGVERS".zip "$PKGNAME"_"$PKGVERS" $PKGNAME.tds.zip
+    #zip -r -9 "$PKGNAME"_"$PKGVERS".zip "$PKGNAME"_"$PKGVERS" $PKGNAME.tds.zip
+    zip -r -9 "$PKGNAME"_"$PKGVERS".zip "$PKGNAME"_"$PKGVERS"
     cd -
   }
 
