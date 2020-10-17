@@ -4,6 +4,7 @@ PKGNAME=flippdf
 PKGVERS=1-0b
 PKGCNT=("README")
 TESTFILES=("test-flippdf-1" "test-flippdf-2")
+TESTENGINES=("pdflatex" "lualatex") 
 
 build()
   {
@@ -27,11 +28,16 @@ EOF
     cd -
   }
 
-test()
+do_test()
   {
-    cd buildpkg/workdir/doc/latex/"$PKGNAME"/examples
+    mkdir -p buildpkg/testdir
+    cp buildpkg/workdir/tex/latex/"$PKGNAME"/"$PKGNAME".sty buildpkg/testdir
+    cp buildpkg/workdir/doc/latex/"$PKGNAME"/examples/* buildpkg/testdir
+    cd buildpkg/testdir
     for name in "${TESTFILES[@]}"; do
-        pdflatex "$name"
+        for engine in "${TESTENGINES[@]}" ; do
+            $engine "$name"
+        done
     done
     cd -
   }
@@ -41,12 +47,8 @@ package()
     mkdir -p buildpkg/"$PKGNAME"_"$PKGVERS"
     cp "$PKGNAME".dtx "$PKGNAME".ins "${PKGCNT[@]}" \
        buildpkg/"$PKGNAME"_"$PKGVERS"/
-    #cd buildpkg/workdir
-    #zip -r -9 ../$PKGNAME.tds.zip tex doc
-    #cd -
     cp buildpkg/workdir/"$PKGNAME".pdf buildpkg/"$PKGNAME"_"$PKGVERS"/
     cd buildpkg
-    #zip -r -9 "$PKGNAME"_"$PKGVERS".zip "$PKGNAME"_"$PKGVERS" $PKGNAME.tds.zip
     zip -r -9 "$PKGNAME"_"$PKGVERS".zip "$PKGNAME"_"$PKGVERS"
     cd -
   }
@@ -54,12 +56,12 @@ package()
 clean()
   {
     cd buildpkg
-    rm -fr ./workdir ./"$PKGNAME"_"$PKGVERS" ./"$PKGNAME".tds.zip
+    rm -fr ./workdir ./testdir ./"$PKGNAME"_"$PKGVERS" ./"$PKGNAME".tds.zip
     cd -
   }
     
 build
-package  
-test
+do_test
+package
 clean
  
