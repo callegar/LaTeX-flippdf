@@ -44,7 +44,7 @@
 % \DoNotIndex{\paperwidth, \space, \strip@pt}
 % \DoNotIndex{\maketitle, \title, \lipsum}
 %
-% \CheckSum{22}
+% \CheckSum{40}
 %
 % \def\filename{flippdf.dtx}
 % \def\fileversion{1.0b}
@@ -192,7 +192,7 @@
 %    \begin{macrocode}
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{flippdf}%
-  [2020/10/11 1.0b Horizontal flipping of pages with pdfLaTeX]
+  [2020/10/17 1.1 Horizontal flipping of pages with pdfLaTeX]
 %    \end{macrocode}
 %
 % Assure that the dependence on \Lpack{everypage} is satisfied.
@@ -200,6 +200,18 @@
 \RequirePackage{everypage}[2007/06/20]
 %    \end{macrocode}
 % \begin{macro}{\if@sc@flippdf}
+%
+% Depend on \Lpack{iftex} and error out if not working in PDF mode
+%    \begin{macrocode}
+\RequirePackage{iftex}
+\AtBeginDocument{%
+  \ifpdf
+    \relax
+  \else
+    \PackageError{flippdf}{%
+      package only works in pdf output mode}%
+  \fi}
+%    \end{macrocode}
 %
 % Define a boolean variable to remember if pages are to be flipped or
 % not.
@@ -229,12 +241,24 @@
 %    \end{macrocode}
 %
 % And eventually, tell \LaTeX\ to flip every page, by using the
-% \Lpack{everypage} hook:
+% \Lpack{everypage} hook. First consider the case when running in
+% \hologo{pdfLaTeX}
 %    \begin{macrocode}
-\AddEverypageHook{%
-  \if@sc@flippdf
-  \pdfliteral direct {-1 0 0 1 \strip@pt\paperwidth\space 0 cm}
-  \fi}
+\ifpdftex
+  \AddEverypageHook{%
+    \if@sc@flippdf
+      \pdfliteral direct {-1 0 0 1 \strip@pt\paperwidth\space 0 cm}%
+    \fi}%
+\fi
+%    \end{macrocode}
+% Then consider the case when running in \hologo{LuaLaTeX}
+%    \begin{macrocode}
+\ifluatex
+  \AddEverypageHook{%
+    \if@sc@flippdf
+      \pdfextension literal direct {-1 0 0 1 \strip@pt\paperwidth\space 0 cm}%
+    \fi}%
+\fi
 %    \end{macrocode}
 % \iffalse
 %</flippdf>
