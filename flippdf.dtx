@@ -38,18 +38,19 @@
 % \DoNotIndex{\NeedsTeXFormat, \documentclass}
 % \DoNotIndex{\begin, \end}
 % \DoNotIndex{\def, \gdef, \let, \newcommand}
-% \DoNotIndex{\ProvidesPackage, \RequirePackage, \usepackage}
+% \DoNotIndex{\ProvidesPackage, \RequirePackage, \usepackage, \PackageError}
 % \DoNotIndex{\DeclareOption, \ProcessOptions}
-% \DoNotIndex{\ifx, \fi, \newif}
+% \DoNotIndex{\ifx, \fi, \newif, \else}
 % \DoNotIndex{\paperwidth, \space, \strip@pt}
 % \DoNotIndex{\maketitle, \title, \lipsum}
+% \DoNotIndex{\thispagestyle, \relax, \setcounter, \Large, \clearpage, \bigskip}
 %
 % \CheckSum{40}
 %
 % \def\filename{flippdf.dtx}
-% \def\fileversion{1.0b}
-% \def\filedate{2020/10/11}
-% \def\docdate{2020/10/11}
+% \def\fileversion{1.1}
+% \def\filedate{2020/10/17}
+% \def\docdate{2020/10/17}
 %
 % \newcommand*{\Lpack}[1]{\textsf {#1}}           ^^A typeset a package
 % \newcommand*{\Lopt}[1]{\textsf {#1}}            ^^A typeset an option
@@ -71,14 +72,15 @@
 % \maketitle
 %
 % \begin{abstract}
-%   The \Lpack{pdfflip} package extends \hologo{pdfLaTeX} making it
-%   possible to typeset a ``mirrored'' version of the document. This is
-%   sometimes required by publishers who use photographic printing
-%   processes that need ``camera-ready'' documents to be printable on
-%   transparent films, so that one reads the pages correctly by looking
-%   \emph{through} the film with the \emph{unprinted} side of the film
-%   towards his eyes. This package requires \Lpack{everypage} by the same
-%   author and works with \hologo{pdfLaTeX} only.
+%   The \Lpack{pdfflip} package extends \hologo{pdfLaTeX} and
+%   \hologo{LuaLaTeX} making it possible to typeset a ``mirrored'' version
+%   of the document. This is sometimes required by publishers who use
+%   photographic printing processes that need ``camera-ready'' documents
+%   to be printable on transparent films, so that one reads the pages
+%   correctly by looking \emph{through} the film with the \emph{unprinted}
+%   side of the film towards his eyes. This package requires
+%   \Lpack{everypage} by the same author and works exclusively with
+%   \hologo{pdfLaTeX} and \hologo{LuaLaTeX} in PDF output mode.
 % \end{abstract}
 % 
 % \section{Introduction}
@@ -94,7 +96,8 @@
 % by page basis.
 %
 % This package requires \Lpack{everypage} by the same author and works
-% with \hologo{pdfLaTeX} only.
+% exclusively with \hologo{pdfLaTeX} and \hologo{LuaLaTeX} in PDF output
+% mode.
 %
 % \section{User interface}
 % By default, once loaded as:
@@ -185,7 +188,7 @@
 %<*flippdf>
 % \fi
 % Announce the name and version of the package, that requires
-% \hologo{LaTeX2e} (actually \hologo{pdfLaTeX}).
+% \hologo{LaTeX2e} (actually \hologo{pdfLaTeX} or \hologo{LuaLaTeX}).
 % \changes{R1.0b}{2020/10/11}{%
 %  Require \Lpack{everypage} package to be at least at its 2007/06/20 (R1.1)
 %  release.}
@@ -199,9 +202,9 @@
 %    \begin{macrocode}
 \RequirePackage{everypage}[2007/06/20]
 %    \end{macrocode}
-% \begin{macro}{\if@sc@flippdf}
 %
 % Depend on \Lpack{iftex} and error out if not working in PDF mode
+% \changes{R1.1}{2020/10/17}{Error out if output mode is not PDF.}%
 %    \begin{macrocode}
 \RequirePackage{iftex}
 \AtBeginDocument{%
@@ -213,6 +216,7 @@
   \fi}
 %    \end{macrocode}
 %
+% \begin{macro}{\if@sc@flippdf}
 % Define a boolean variable to remember if pages are to be flipped or
 % not.
 %    \begin{macrocode}
@@ -252,6 +256,8 @@
 \fi
 %    \end{macrocode}
 % Then consider the case when running in \hologo{LuaLaTeX}
+% \changes{R1.1}{2020/10/17}{Extend package to work also with
+% \hologo{LuaLaTeX}.}
 %    \begin{macrocode}
 \ifluatex
   \AddEverypageHook{%
