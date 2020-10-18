@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PKGNAME=flippdf
-PKGVERS=1-1
+PKGVERS=2-0
 PKGCNT=("README.md")
 TESTFILES=("test-flippdf-1" "test-flippdf-2")
 TESTENGINES=("pdflatex" "lualatex") 

@@ -23,7 +23,7 @@
 %<*driver>
 \documentclass{ltxdoc}
 \usepackage{mathptmx}
-\usepackage{helvet}
+\usepackage[scaled=0.92]{helvet}
 \usepackage{hologo}
 \usepackage[T1]{fontenc}
 \usepackage{hypdoc}
@@ -46,13 +46,15 @@
 % \DoNotIndex{\paperwidth, \space, \strip@pt}
 % \DoNotIndex{\maketitle, \title, \lipsum}
 % \DoNotIndex{\thispagestyle, \relax, \setcounter, \Large, \clearpage, \bigskip}
-%
-% \CheckSum{40}
+% \DoNotIndex{\@ifundefined, \AtBeginDocument, \endinput, \MessageBreak}
+% \DoNotIndex{\PackageWarningNoLine}
+
+% \CheckSum{86}
 %
 % \def\filename{flippdf.dtx}
-% \def\fileversion{1.1}
-% \def\filedate{2020/10/17}
-% \def\docdate{2020/10/17}
+% \def\fileversion{2.0}
+% \def\filedate{2020/10/18}
+% \def\docdate{2020/10/18}
 %
 % \newcommand*{\Lpack}[1]{\textsf {#1}}           ^^A typeset a package
 % \newcommand*{\Lopt}[1]{\textsf {#1}}            ^^A typeset an option
@@ -182,12 +184,126 @@
 %</test-2>
 % \fi
 %
+% \section{Package redesign}
+%
+% Until Fall 2020, \Lpack{flippdf} relied on package \Lpack{everypage} for
+% its operation. Recently, functionalities similar to those offered by
+% \Lpack{everypage} have been incorporated into \hologo{LaTeX} and
+% \Lpack{everypage} has been deprecated, maintaining support for it just
+% in view of compatibility for legacy packages still relying on it. As a
+% consequence, \Lpack{flippdf} has been redesigned to take advantage of the
+% new \hologo{LaTeX} features and to drop the dependence on
+% \Lpack{everypage}.
+%
+% Version 2.0 of \Lpack{flippdf} is the result of the redesign. Version
+% 1.x remains availabe las \Lpack{flippdf-1x} and modern \Lpack{flippdf}
+% knows how to fallback on it when used on a \hologo{LaTeX} format missing
+% the new features.
+%
 % \StopEventually {}
-% 
+%
 % \section{Implementation}
+%
+% \subsection{Implementation of \Lpack{flippdf}}
 %
 % \iffalse
 %<*flippdf>
+% \fi
+% \changes{R2.0}{2020/10/18}{Use modern \hologo{LaTeX} features.}%
+% Announce the name and version of the package, that requires
+% \hologo{LaTeX2e} (actually \hologo{pdfLaTeX} or \hologo{LuaLaTeX}).
+%    \begin{macrocode}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{flippdf}%
+  [2020/10/18 2.0 Horizontal flipping of pages with pdfLaTeX]
+%    \end{macrocode}
+% Depending on the actual functionalities provided by \hologo{LaTeX}
+% consider loading \Lpack{flippdf-1x}. If so doing, warn about this,
+% and hand over the operation to that package.
+%    \begin{macrocode} 
+\@ifundefined{AddToHook}{%
+  \PackageWarningNoLine{flippdf}{%
+    You appear to be running a version of LaTeX\MessageBreak
+    unsupported by current flippdf.\MessageBreak
+    Forcing fallback to `flippdf-1x` that\MessageBreak
+    uses an older code base}
+  \RequirePackage{flippdf-1x}
+  \endinput}{}
+%    \end{macrocode}
+% State package requirements, including \Lpack{iftex}
+%    \begin{macrocode} 
+\RequirePackage{iftex}
+%    \end{macrocode}
+% Error out if not working in PDF mode
+%    \begin{macrocode}
+\AtBeginDocument{%
+  \ifpdf
+    \relax
+  \else
+    \PackageError{flippdf}{%
+      package only works in pdf output mode.}%
+  \fi}
+%    \end{macrocode}
+%
+% \begin{macro}{\if@sc@flippdf}
+% Define a boolean variable to remember if pages are to be flipped or
+% not.
+%    \begin{macrocode}
+\newif\if@sc@flippdf
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\FlipPDF}\begin{macro}{\UnFlipPDF}
+% Define the commands used to switch on and off the horizontal
+% flipping of the document pages.
+%    \begin{macrocode}
+\newcommand\FlipPDF{\@sc@flippdftrue}
+\newcommand\UnFlipPDF{\@sc@flippdffalse}
+%    \end{macrocode}
+% \end{macro}\end{macro}
+%
+% By default activate the flipping:
+%    \begin{macrocode}
+\FlipPDF
+%    \end{macrocode} 
+% 
+% Set up the processing of options:
+%    \begin{macrocode}
+\DeclareOption{off}{\UnFlipPDF}
+\ProcessOptions
+%    \end{macrocode}
+%
+% And eventually, tell \hologo{LaTeX} to flip every page, by using the
+% \Lpack{everypage} hook. First consider the case when running in
+% \hologo{pdfLaTeX}
+%    \begin{macrocode}
+\ifpdftex
+  \AddToHook{shipout/background}{%
+    \if@sc@flippdf
+      \pdfliteral direct {-1 0 0 1 \strip@pt\paperwidth\space 0 cm}%
+    \fi}%
+\fi
+%    \end{macrocode}
+% Then consider the case when running in \hologo{LuaLaTeX}
+% \changes{R1.1}{2020/10/17}{Extend package to work also with
+% \hologo{LuaLaTeX}.}
+%    \begin{macrocode}
+\ifluatex
+  \AddToHook{shipout/background}{%
+    \if@sc@flippdf
+    \pdfextension literal direct {%
+      -1 0 0 1 \strip@pt\paperwidth\space 0 cm}%
+    \fi}%
+\fi
+%    \end{macrocode}
+% \iffalse
+%</flippdf>
+% \fi
+
+
+% \subsection{Implementation of \Lpack{flippdf-1x}}
+% \iffalse
+%<*flippdf-1x>
 % \fi
 % Announce the name and version of the package, that requires
 % \hologo{LaTeX2e} (actually \hologo{pdfLaTeX} or \hologo{LuaLaTeX}).
@@ -196,7 +312,7 @@
 %  release.}
 %    \begin{macrocode}
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{flippdf}%
+\ProvidesPackage{flippdf-1x}%
   [2020/10/17 1.1 Horizontal flipping of pages with pdfLaTeX]
 %    \end{macrocode}
 %
@@ -264,12 +380,13 @@
 \ifluatex
   \AddEverypageHook{%
     \if@sc@flippdf
-      \pdfextension literal direct {-1 0 0 1 \strip@pt\paperwidth\space 0 cm}%
+    \pdfextension literal direct {%
+      -1 0 0 1 \strip@pt\paperwidth\space 0 cm}%
     \fi}%
 \fi
 %    \end{macrocode}
 % \iffalse
-%</flippdf>
+%</flippdf-1x>
 % \fi
 %
 % \Finale
