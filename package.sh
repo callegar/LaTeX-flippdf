@@ -2,7 +2,7 @@
 
 PKGNAME=flippdf
 PKGVERS=1-0b
-PKGCNT=("README")
+PKGCNT=("README.md")
 TESTFILES=("test-flippdf-1" "test-flippdf-2")
 TESTENGINES=("pdflatex" "lualatex") 
 
