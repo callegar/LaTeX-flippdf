@@ -52,9 +52,9 @@
 % \CheckSum{86}
 %
 % \def\filename{flippdf.dtx}
-% \def\fileversion{2.0}
-% \def\filedate{2020/10/18}
-% \def\docdate{2020/10/18}
+% \def\fileversion{2.0b}
+% \def\filedate{2020/10/27}
+% \def\docdate{2020/10/27}
 %
 % \newcommand*{\Lpack}[1]{\textsf {#1}}           ^^A typeset a package
 % \newcommand*{\Lopt}[1]{\textsf {#1}}            ^^A typeset an option
@@ -215,8 +215,10 @@
 %    \begin{macrocode}
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{flippdf}%
-  [2020/10/18 2.0 Horizontal flipping of pages with pdfLaTeX]
+  [2020/10/27 R2.0b Horizontal flipping of pages with pdfLaTeX]
 %    \end{macrocode}
+% \changes{R2.0b}{2020/10/27}{Assure that options are passed to
+% \Lpack{flippdf-1x} when the old code is used.}
 % Depending on the actual functionalities provided by \hologo{LaTeX}
 % consider loading \Lpack{flippdf-1x}. If so doing, warn about this,
 % and hand over the operation to that package.
@@ -226,8 +228,8 @@
     You appear to be running a version of LaTeX\MessageBreak
     unsupported by current flippdf.\MessageBreak
     Forcing fallback to `flippdf-1x` that\MessageBreak
-    uses an older code base}
-  \RequirePackage{flippdf-1x}
+    uses an older code base}%
+  \RequirePackageWithOptions{flippdf-1x}%
   \endinput}{}
 %    \end{macrocode}
 % State package requirements, including \Lpack{iftex}
